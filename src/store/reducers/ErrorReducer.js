@@ -5,7 +5,7 @@ const initialState = {
   categoryError: null,
 };
 
-export const ErrorReducer = (state = initialState, action) => {
+export const errorReducer = (state = initialState, action) => {
   switch (action.type) {
     case "IS_FETCHING":
       return {
