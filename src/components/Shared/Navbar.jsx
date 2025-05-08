@@ -5,11 +5,13 @@ import { Link, useLocation } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
 import { IoIosMenu } from "react-icons/io";
 import { useSelector } from "react-redux";
+import UserMenu from "../UserMenu";
 
 export const Navbar = () => {
   const path = useLocation().pathname;
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const {cart} = useSelector(state => state.carts);
+  const { cart } = useSelector((state) => state.carts);
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <div
@@ -82,7 +84,7 @@ export const Navbar = () => {
               }`}
             >
               <Badge
-              showZero
+                showZero
                 badgeContent={cart?.length || 0}
                 color="primary"
                 overlap="circular"
@@ -93,20 +95,28 @@ export const Navbar = () => {
             </Link>
           </li>
 
-          <li className="font-[500] transition-all duration-150">
-            <Link
-              to={"/login"}
-              className={`${
-                path === "/login" ? "text-white font-semibold" : "text-gray-200"
-              } flex space-x-2 items-center px-4 py-[6px] bg-linear-to-r 
+          {user && user.id ? (
+            <li className="font-[500] transition-all duration-150">
+              <UserMenu/>
+            </li>
+          ) : (
+            <li className="font-[500] transition-all duration-150">
+              <Link
+                to={"/login"}
+                className={`${
+                  path === "/login"
+                    ? "text-white font-semibold"
+                    : "text-gray-200"
+                } flex space-x-2 items-center px-4 py-[6px] bg-linear-to-r 
               from-purple-600 to-red-500 text-white font-semibold 
               rounded-md shadow-lg hover:from-purple-500 hover:to-red-400 
               transition duration-300 ease-in-out transform`}
-            >
-              <FaSignInAlt />
-              <span>Login</span>
-            </Link>
-          </li>
+              >
+                <FaSignInAlt />
+                <span>Login</span>
+              </Link>
+            </li>
+          )}
         </ul>
 
         <button
